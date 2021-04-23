@@ -1,6 +1,9 @@
 const Profile=require('../model/Profile')
 const User=require('../model/User')
+
 const { validationResult } = require('express-validator');
+const request=require("request")
+const config=require("config")
 
 const createProfile=async(req,res)=>{
     const errors = validationResult(req);
@@ -61,7 +64,7 @@ const createProfile=async(req,res)=>{
 
 const getProfile=async(req,res)=>{
     try{
-        const profile=await Profile.find().populate('users',['name','avatar'])
+        const profile=await Profile.find().populate('user',['name','avatar'])
         res.status(302).send(profile)
     }catch(err){
         console.error(err.message)
@@ -71,12 +74,12 @@ const getProfile=async(req,res)=>{
 }
 
 const myProfile=async(req,res)=>{
-    const myprofile=await Profile.findById(req.user).populate('user',['name','avatar'])
+    const myprofile=await Profile.find({user:req.user}).populate('user',['name','avatar'])
     try {
         if(myprofile){
-             res.status(302).json({msg:myprofile})
+             res.send(myprofile)
         }
-        res.status(404).json({msg:"Profile does't found"})
+        res.send("Profile does't found")
 
     } catch (error) {
         console.log(error)
@@ -87,7 +90,7 @@ const myProfile=async(req,res)=>{
 const singleid=async(req,res)=>{
     const id=req.params.id
     try{
-        const profile=await Profile.findOne({user:id}).populate('users',['name','avatar'])
+        const profile=await Profile.findOne({user:id}).populate('user',['name','avatar'])
         if(!profile) return req.status(400).json({msg:"There is no profile for this user"})
         res.status(302).send(profile)
     }catch(err){
@@ -99,6 +102,76 @@ const singleid=async(req,res)=>{
     }
 }
 
+const updateExperience=async(req,res)=>{
+    const error=validationResult(req)
+    if(!error.isEmpty()){
+        return  res.status(400).json({errors:error.array()})
+    }
+    const {
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+    }=req.body
+
+    const newExp={
+        title,
+        company,
+        location,
+        from,
+        to,
+        current,
+        description
+    }
+
+    try {
+        const profile=await Profile.findOne({user:req.user})
+        profile.experience.unshift(newExp)
+        await profile.save()
+        res.json(profile)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+}
+const updateEducation=async(req,res)=>{
+    const error=validationResult(req)
+    if(!error.isEmpty()){
+        return  res.status(400).json({errors:error.array()})
+    }
+    const {
+        school,
+        degree,
+        fieldofstudy,
+        from,
+        to,
+        current,
+        description
+    }=req.body
+
+    const newEdu={
+        school,
+        degree,
+        fieldofstudy,
+        from,
+        to,
+        current,
+        description
+    }
+
+    try {
+        const profile=await Profile.findOne({user:req.user})
+        profile.education.unshift(newEdu)
+        await profile.save()
+        res.json(profile)
+    } catch (err) {
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+}
 
 const deleteProfile=async(req,res)=>{
     try{
@@ -112,5 +185,62 @@ const deleteProfile=async(req,res)=>{
 
 }
 
+const deleteExperience=async(req,res)=>{
+    try{
+        await Profile.findOne({user:req.user})
+        const removeindex=profile.experience
+                          .map(item=>item.id)
+                          .indexOf(req.params.exp_id)
+       
+        profile.experience.splice(removeindex,1)
+        await profile.save()
+        res.json(profile)
+    }catch(err){
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
 
-module.exports={createProfile,getProfile,singleid,myProfile,deleteProfile}
+}
+
+const deleteEducation=async(req,res)=>{
+    try{
+        await Profile.findOne({user:req.user})
+        const removeindex=profile.education
+                          .map(item=>item.id)
+                          .indexOf(req.params.edu_id)
+       
+        profile.education.splice(removeindex,1)
+        await profile.save()
+        res.json(profile)
+    }catch(err){
+        console.error(err.message)
+        res.status(500).send("Server Error")
+    }
+
+}
+
+const getGithubrepo=(req,res)=>{
+    try {
+        const options={
+            uri:`https://api.github.com/users/${req.params.username}/repos?per_page=5&
+            sort=created:asc&client_id=${config.get('gitclientid')}&client_secret=${config.get('gitclientsecret')}`,
+            method:'GET',
+            headers:{'user-agent':'node.js'}
+        }
+        request(options,(error,response,body)=>{
+            if(error) console.error(error)
+            if(response.statusCode !== 200){
+                res.status(404).json({msg:"No Github profile found"})
+            }
+            res.json(JSON.parse(body))
+        })
+    } catch (error) {
+        console.error(error)
+        res.send(500).send("server error")
+        
+    }
+
+}
+
+
+module.exports={getGithubrepo,createProfile,getProfile,deleteExperience,deleteEducation,updateExperience,updateEducation,singleid,myProfile,deleteProfile}

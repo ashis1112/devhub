@@ -1,4 +1,6 @@
 {
     "mongoURI":"mongodb+srv://ashis:ashis123@cluster0.mtamz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    "secrettoken":"Mysecret"
+    "secrettoken":"Mysecret",
+    "gitclientid":"4a86017b4374d41d794a",
+    "gitclientsecret":"c680de2873f925f959429f2c570a4901251a1c24"
 }
