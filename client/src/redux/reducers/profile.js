@@ -1,4 +1,4 @@
-import {GET_PROFILE,PROFILE_ERROR,PROFILE_CLEAR} from '../actions/types'
+import {GET_PROFILE,PROFILE_ERROR,PROFILE_CLEAR,UPDATE_PROFILE,GET_PROFILES,GET_REPO} from '../actions/types'
 
 const INITIAL_STATE={
     profile:null,
@@ -11,6 +11,8 @@ const Profile=(state=INITIAL_STATE,action)=>{
     const {type,payload}=action
     switch (type) {
         case GET_PROFILE:
+        case GET_PROFILES:
+        case UPDATE_PROFILE:
             return{
                 ...state,
                 profile:payload,
@@ -27,6 +29,12 @@ const Profile=(state=INITIAL_STATE,action)=>{
                 ...state,
                 profile:null,
                 repos:[],
+                loading:false
+            }
+        case GET_REPO:
+            return{
+                ...state,
+                repos:payload,
                 loading:false
             }
         default:

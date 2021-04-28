@@ -44,8 +44,8 @@ router.put('/education',[
         .isEmpty()
     ]
 ],updateEducation)
-router.delete('/experience/exp_:id',[auth],deleteExperience)
-router.delete('/experience/edu_:id',[auth],deleteEducation)
+router.delete('/experience/:exp_id',[auth],deleteExperience)
+router.delete('/experience/:edu_id',[auth],deleteEducation)
 router.delete('/',deleteProfile)
 
 

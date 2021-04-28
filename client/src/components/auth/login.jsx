@@ -33,10 +33,10 @@ const Login=({login,isAuthenticate})=>{
     return(
         <>
          
-      <h1 class="large text-primary">Login In</h1>
-      <p class="lead"><i class="fas fa-user"></i> Log in into Your Account</p>
-      <form class="form" onSubmit={submit}>
-        <div class="form-group">
+      <h1 className="large text-primary">Login In</h1>
+      <p className="lead"><i className="fas fa-user"></i> Log in into Your Account</p>
+      <form className="form" onSubmit={submit}>
+        <div className="form-group">
           <input
             type="email"
             placeholder="Email Address"
@@ -47,7 +47,7 @@ const Login=({login,isAuthenticate})=>{
 
           />
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <input
             type="password"
             placeholder="Password"
@@ -56,9 +56,9 @@ const Login=({login,isAuthenticate})=>{
             onChange={change}
           />
         </div>
-        <input type="submit" class="btn btn-primary" value="Login" />
+        <input type="submit" className="btn btn-primary" value="Login" />
       </form>
-      <p class="my-1">
+      <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>
       </p>
         </>

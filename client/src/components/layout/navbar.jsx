@@ -7,8 +7,12 @@ const Navbar=({auth,logout})=>{
     const authLinks=(
         <ul>
                 <li>
+                    <Link to="/profiles">
+                        Devlopers
+                    </Link>
+                </li>
+                <li>
                     <Link to="/create-profile">
-                        
                         <span className='hide-sm'>Create Profile</span>
                     </Link>
                 </li>
@@ -28,9 +32,14 @@ const Navbar=({auth,logout})=>{
     )
     const guestLinks=(
             <ul>
-                <li><Link to="/devloper">Devlopers</Link></li>
+               <li>
+                    <Link to="/profiles">
+                        Devlopers
+                    </Link>
+                </li>
                 <li><Link to="/register">Register</Link></li>
                 <li><Link to="/login">Login</Link></li>
+
             </ul>
     )
     return(

@@ -1,5 +1,6 @@
 const Profile=require('../model/Profile')
 const User=require('../model/User')
+const Post=require('../model/Post')
 
 const { validationResult } = require('express-validator');
 const request=require("request")
@@ -65,10 +66,10 @@ const createProfile=async(req,res)=>{
 const getProfile=async(req,res)=>{
     try{
         const profile=await Profile.find().populate('user',['name','avatar'])
-        res.status(302).send(profile)
+        return res.send(profile)
     }catch(err){
         console.error(err.message)
-        res.status(500).send("Server Error")
+        return res.status(500).send("Server Error")
     }
 
 }
@@ -92,7 +93,7 @@ const singleid=async(req,res)=>{
     try{
         const profile=await Profile.findOne({user:id}).populate('user',['name','avatar'])
         if(!profile) return req.status(400).json({msg:"There is no profile for this user"})
-        res.status(302).send(profile)
+        res.send(profile)
     }catch(err){
         console.error(err.message)
         if(err.kind == 'ObjectId'){
@@ -175,6 +176,7 @@ const updateEducation=async(req,res)=>{
 
 const deleteProfile=async(req,res)=>{
     try{
+        await Post.deleteMany({user:req.user})
         await Profile.findOneAndDelete({user:req.user})
         await User.findOneAndRemove({_id:req.user})
         res.json({msg:"User Deleted"})
@@ -187,7 +189,7 @@ const deleteProfile=async(req,res)=>{
 
 const deleteExperience=async(req,res)=>{
     try{
-        await Profile.findOne({user:req.user})
+        const profile=await Profile.findOne({user:req.user})
         const removeindex=profile.experience
                           .map(item=>item.id)
                           .indexOf(req.params.exp_id)
@@ -204,7 +206,7 @@ const deleteExperience=async(req,res)=>{
 
 const deleteEducation=async(req,res)=>{
     try{
-        await Profile.findOne({user:req.user})
+        const profile = await Profile.findOne({user:req.user})
         const removeindex=profile.education
                           .map(item=>item.id)
                           .indexOf(req.params.edu_id)
@@ -232,11 +234,11 @@ const getGithubrepo=(req,res)=>{
             if(response.statusCode !== 200){
                 res.status(404).json({msg:"No Github profile found"})
             }
-            res.json(JSON.parse(body))
+            res.send(JSON.parse(body))
         })
     } catch (error) {
         console.error(error)
-        res.send(500).send("server error")
+        res.status(500).send("server error")
         
     }
 
