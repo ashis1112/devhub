@@ -12,6 +12,11 @@ const Navbar=({auth,logout})=>{
                     </Link>
                 </li>
                 <li>
+                    <Link to="/post">
+                        Post
+                    </Link>
+                </li>
+                <li>
                     <Link to="/create-profile">
                         <span className='hide-sm'>Create Profile</span>
                     </Link>

@@ -17,12 +17,12 @@ router.get('/',auth,getPost)
 router.get('/:id',auth,singlePost)
 router.put('/like/:id',auth,likePost)
 router.put('/unlike/:id',auth,unlikePost)
-router.put('/comment/:id',[auth,
+router.post('/comment/:id',[auth,
     check('comment','Comment is required')
     .not()
     .isEmpty()
 ],addComment)
-router.put('/comment/:id/:comment_id',auth,removeComment)
+router.delete('/comment/:id/:comment_id',auth,removeComment)
 router.delete('/:id',auth,deletePost)
 
 

@@ -17,6 +17,9 @@ import AddExperience from './components/profile-form/addexperience'
 import AddEducation from './components/profile-form/addeducation'
 import Profiles from './components/profiles/profiles'
 import Profile from './components/profile/profile'
+import Posts from './components/posts/posts'
+import Post from './components/post/post'
+import Notfound from './components/layout/notfound'
 
 if(localStorage.token){
   setAuthtoken(localStorage.token)
@@ -43,6 +46,10 @@ const  App=()=>{
           <Privateroute path='/edit-profile' component={Editprofile} />
           <Privateroute path='/add-experience' component={AddExperience} />
           <Privateroute path='/add-education' component={AddEducation} />
+          <Privateroute exact path='/post' component={Posts} />
+          <Privateroute  path='/post/:id' component={Post} />
+          <Route component={Notfound} />
+
         </Switch>
       </section>
     </>

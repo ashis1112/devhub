@@ -7,10 +7,10 @@ const Profileitem=({id,profile})=>{
         <div className='profile bg-light'>
             <img src={user.avatar} alt=""/>
             <div>
-                <h2>{user.name.toUpperCase()}</h2>
+                <h2>{user.name && user.name.toUpperCase()}</h2>
                 <p>{status} {company && <span>at {company}</span>}</p>
                 <p className='my-1'>{location && <span>{location}</span>}</p>
-                <Link to={`/profiles/${user._id}`} className="btn btn-primary">View Profile</Link>
+                <a href={`/profiles/${user._id}`} className="btn btn-primary">View Profile</a>
             </div>
             <ul>
                 {skill.slice(0,4).map((skill,index)=>(
