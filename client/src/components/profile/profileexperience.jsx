@@ -5,7 +5,7 @@ const Profileexp=({profile:{experience}})=>{
     return(
         <>
         {
-            experience.map(exp=>(
+            experience && experience.map(exp=>(
                 <div class="profile-exp bg-white p-2">
           <h2 class="text-primary">Experience</h2>
           <div>

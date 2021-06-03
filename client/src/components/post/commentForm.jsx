@@ -4,8 +4,14 @@ import {connect} from 'react-redux'
 import {addComment} from '../../redux/actions/post'
 
 const Commentform=({addComment,postid})=>{
-    const [text,setComment]=useState('')
+    const [text,setComment]=useState({
+        comment:""
+    })
 
+    const change=(e)=>{
+        setComment({...text,[e.target.name]:e.target.value})
+    }
+    const {comment}=text
     return(
         <>
         <div class="post-form">
@@ -14,20 +20,19 @@ const Commentform=({addComment,postid})=>{
             </div>
             <form class="form my-1" onSubmit={e=>{
                 e.preventDefault()
-                addComment(postid,{text})
-                setComment('')
+                addComment(postid,{comment})
+                setComment({comment:""})
             }}>
             <textarea
-                name="text"
+                name="comment"
                 cols="30"
                 rows="5"
                 placeholder="Create a post"
-                value={text}
-                onChange={(e)=>setComment(e.target.value)}
+                value={text.comment}
+                onChange={(e)=>change(e)}
                 required
             ></textarea>
-
-            <input type="submit" class="btn btn-dark my-1" value="Submit" />
+            <button class="btn btn-dark my-1">Submit</button>
             </form>
         </div>
         </>

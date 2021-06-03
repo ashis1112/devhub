@@ -1,11 +1,14 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {connect} from 'react-redux'
-import {deleteComment} from '../../redux/actions/post'
+import {deleteComment,getsinglePost} from '../../redux/actions/post'
 import PropTypes from 'prop-types'
 import {Link} from 'react-router-dom'
 import Moment from 'react-moment'
 
-const Comment=({deleteComment,postid,comment:{_id,text,name,avatar,user,date},auth})=>{
+const Comment=({deleteComment,postid,comment:{_id,text,name,avatar,user,date},auth,match})=>{
+  useEffect(()=>{
+    getsinglePost(match)
+},[getsinglePost])
     return(
         <div className="post bg-white p-1 my-1">
           <div>

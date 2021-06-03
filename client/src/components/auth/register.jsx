@@ -3,7 +3,7 @@ import {setAlert} from '../../redux/actions/alertaction'
 import {register} from '../../redux/actions/auth'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {Redirect} from 'react-router-dom'
+import {Redirect,Link} from 'react-router-dom'
 
 const Register=({setAlert,register,isAuthenticate})=>{
     const [formData,setFormData]=useState({
@@ -23,7 +23,7 @@ const Register=({setAlert,register,isAuthenticate})=>{
     const submit=(e)=>{
       e.preventDefault()
       if(password !== password2){
-        setAlert('Password not match','danger')
+        return setAlert('Password not match','danger')
       }
       register({name,email,password})
     }
@@ -68,7 +68,7 @@ const Register=({setAlert,register,isAuthenticate})=>{
         <input type="submit" class="btn btn-primary" value="Register" />
       </form>
       <p class="my-1">
-        Already have an account? <a href="login.html">Sign In</a>
+        Already have an account? <Link to="/login">Sign In</Link>
       </p>
         </>
     )

@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {login} from '../../redux/actions/auth'
 import { Redirect } from 'react-router-dom'
+import {setAlert} from '../../redux/actions/alertaction'
 
 const Login=({login,isAuthenticate})=>{
   
@@ -23,6 +24,9 @@ const Login=({login,isAuthenticate})=>{
   }
   const submit=(e)=>{
     e.preventDefault()
+    if(email === "" || password === ""){
+      return setAlert('Password not match','danger')
+    }
     login({email,password})
     console.log(formData)
   }

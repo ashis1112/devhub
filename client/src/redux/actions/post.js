@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { body } from 'express-validator'
 import {setAlert} from './alertaction'
 import {GET_POSTS,GET_POST,POST_ERROR,
     UPDATE_LIKES,DELETE_POST,CREATE_POSTS,
@@ -87,13 +88,17 @@ export const deletePost=(id)=>async dispatch=>{
 }
 
 // Create Post
-export const createPost=(formdata)=>async dispatch=>{
+export const createPost=({text})=>async dispatch=>{
     try {
         const config={
-            'headers':'application/json'
+            headers:{
+                'Content-Type':'application/json',
+            }
         }
+        const body={text}
+        const res=await axios.post(`http://localhost:5000/api/posts`,body,config)
+        console.log(res)
 
-        const res=await axios.post('http://localhost:5000/api/posts',formdata,config)
         dispatch(setAlert("Post created","success"))
         dispatch({
             type:CREATE_POSTS,
@@ -107,18 +112,21 @@ export const createPost=(formdata)=>async dispatch=>{
     }
 }
 
-export const addComment=(postid,formdata)=>async dispatch=>{
+export const addComment=(postid,{comment})=>async dispatch=>{
     try {
         const config={
-            'headers':'application/json'
+            headers:{
+                'Content-Type':'application/json',
+            }
         }
-
-        const res=await axios.post(`http://localhost:5000/api/posts/comment/${postid}`,formdata,config)
+        const body={comment}
+        const res=await axios.post(`http://localhost:5000/api/posts/comment/${postid}`,body,config)
         dispatch(setAlert("Comment Added","success"))
         dispatch({
             type:ADD_COMMENT,
             payload:res.data
         })
+       
     } catch (err) {   
         dispatch({
             type:POST_ERROR,
@@ -130,7 +138,8 @@ export const addComment=(postid,formdata)=>async dispatch=>{
 export const deleteComment=(postid,commentid)=>async dispatch=>{
     try {
         
-        const res=await axios.post(`http://localhost:5000/api/posts/comment/${postid}`)
+        const res=await axios.delete(`http://localhost:5000/api/posts/comment/${postid}/${commentid}`)
+        console.log(res)
         dispatch(setAlert("Comment Deleted","success"))
         dispatch({
             type:REMOVE_COMMENT,

@@ -27,7 +27,7 @@ const Profile=(state=INITIAL_STATE,action)=>{
         case PROFILE_CLEAR:
             return {
                 ...state,
-                profile:null,
+                profile:{},
                 repos:[],
                 loading:false
             }

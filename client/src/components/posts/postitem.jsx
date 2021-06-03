@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 import {getLike,removeLike,deletePost} from '../../redux/actions/post'
 
 const Postitem=({auth,post:{_id,text,name,avatar,user,likes,comments,date},removeLike,getLike,deletePost,showAction})=>{
-    console.log('likes',likes)
+    console.log('id',_id)
     return(
         <div class="post bg-white p-1 my-1">
           <div>
@@ -35,9 +35,9 @@ const Postitem=({auth,post:{_id,text,name,avatar,user,likes,comments,date},remov
             <button onClick={()=>{removeLike(_id)}} type="button" class="btn btn-light">
               <i class="fas fa-thumbs-down"></i>
             </button>
-            <a href={`/post/${_id}`} class="btn btn-primary">
+            <Link to={`/post/${_id}`} class="btn btn-primary">
               Discussion {comments.length > 0 && (<span class='comment-count'>{comments.length}</span>)}
-            </a>
+            </Link>
             { auth.user && user === auth.user.user._id && (
                 <button      
                 type="button"

@@ -2,7 +2,7 @@ const express=require('express')
 const router=express.Router()
 const auth=require('../../middelware/jwt')
 const {authControllerPost,authControllerGet}=require('../../controller/authController')
-const {check} = require('express-validator');
+const {check,body} = require('express-validator');
 
 // login user
 router.get('/',auth,authControllerGet)

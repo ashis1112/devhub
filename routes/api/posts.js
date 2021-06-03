@@ -13,7 +13,6 @@ router.post('/',[
 ],createPost)
 
 router.get('/',auth,getPost)
-
 router.get('/:id',auth,singlePost)
 router.put('/like/:id',auth,likePost)
 router.put('/unlike/:id',auth,unlikePost)

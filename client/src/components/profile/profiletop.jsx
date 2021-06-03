@@ -7,16 +7,16 @@ const Profiletop=({
         company,
         website,
         social,
-        user:{name,avatar}
+        user
     }})=>{
     return( 
         <div className="profile-top bg-primary p-2">
           <img
             className="round-img my-1"
-            src={avatar}
+            src={user && user.avatar}
             alt=""
           />
-          <h1 className="large">{name}</h1>
+          <h1 className="large">{user &&  user.name}</h1>
           <p className="lead">{status} at {company && company}</p>
           <p>{location}</p>
           <div className="icons my-1">

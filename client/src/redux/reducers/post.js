@@ -18,6 +18,7 @@ const Post=(state=INITIAL_STATE,action)=>{
                 posts:payload,
                 loading:false,
             }
+       
         case GET_POST:
             return{
                 ...state,

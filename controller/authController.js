@@ -15,20 +15,24 @@ const authControllerGet=async(req,res)=>{
 
 const authControllerPost=async(req,res)=>{
     const errors = validationResult(req);
+    console.log(errors.array()[0])
     if (!errors.isEmpty()) {
-      return res.status(400).json({ err: errors.array()[0].msg });
+       res.status(400).json({ err: errors.array()[0].msg });
     }
     const {email,password}=req.body
 
     try {
         let isuser=await User.findOne({email:email})
         if(!isuser){
-           return res.status(400).json({err:"Invalid Credentials"})
+            res.status(400).json({err:"Invalid Credentials"})
         }
-        
-        const isMatch=bcrypt.compare(password,isuser.password)
+        if(password === ""){
+            res.status(400).json({err:"Invalid Credentials"})
+        }
+        console.log(password)
+        const isMatch=await bcrypt.compare(password,isuser.password)
         if(!isMatch){
-            return res.status(400).json({err:"Invalid Credentials"})
+            res.send({err:"Invalid Credentials"})
         }
         // making jwt
         const payload={
@@ -36,7 +40,7 @@ const authControllerPost=async(req,res)=>{
         }
         jwt.sign(payload,config.get("secrettoken"),{expiresIn:"2h"},(err,token)=>{
             if(!err){
-                res.status(200).json({token:token})
+                res.send({token:token})
             }
             throw err
         })

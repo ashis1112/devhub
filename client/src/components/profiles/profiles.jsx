@@ -8,7 +8,6 @@ const Profiles=({getAllProfile,profile})=>{
     useEffect(()=>{
         getAllProfile()
     },[getAllProfile])
-    console.log(profile)
     return(<>
         {
             profile.profile == null ? <Spinner/>:(<>

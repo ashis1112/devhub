@@ -9,6 +9,7 @@ const createPost=async(req,res)=>{
 
     try {
         const user=await User.findOne({_id:req.user}).select('-password')
+        console.log(req.body)
         const newPost=new Post({
             text:req.body.text,
             name:user.name,
@@ -118,8 +119,10 @@ const addComment=async(req,res)=>{
             avatar:user.avatar,
             user:req.user
         })
+        
         await post.save()
-        res.status(200).json({msg:"Comment Added"})
+        res.json(post.comments)
+
     } catch (err) { 
         console.error(err.message);
         if(err.kind === 'ObjectId'){

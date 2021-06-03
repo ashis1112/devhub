@@ -13,7 +13,6 @@ const Dashboard=({getCurrentProfile,auth,profiles,accountDelete})=>{
     useEffect(()=>{
         getCurrentProfile()
     },[getCurrentProfile])
-    console.log(profiles)
 
     return( profiles.profile == null && profiles.loading ? <Spinner /> : <>
     <h1 className='large text-primary'>Dashboard</h1>

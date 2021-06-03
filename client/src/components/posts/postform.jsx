@@ -4,7 +4,19 @@ import {connect} from 'react-redux'
 import {createPost} from '../../redux/actions/post'
 
 const PostForm=({createPost})=>{
-    const [text,setText]=useState('')
+    const [textdata,setText]=useState({
+        text:""
+    })
+
+    const change=(e)=>{
+        setText({...textdata,[e.target.name]:e.target.value})
+    }
+    const {text}=textdata
+    const submit=(e)=>{
+        e.preventDefault()
+        createPost({text})
+        setText({text:""})
+    }
 
     return(
         <>
@@ -12,18 +24,14 @@ const PostForm=({createPost})=>{
             <div class="bg-primary p">
             <h3>Say Something...</h3>
             </div>
-            <form class="form my-1" onSubmit={e=>{
-                e.preventDefault()
-                createPost({text})
-                setText('')
-            }}>
+            <form class="form my-1" onSubmit={e=>submit(e)}>
             <textarea
                 name="text"
                 cols="30"
                 rows="5"
                 placeholder="Create a post"
-                value={text}
-                onChange={(e)=>setText(e.target.value)}
+                value={textdata.text}
+                onChange={(e)=>change(e)}
                 required
             ></textarea>
 

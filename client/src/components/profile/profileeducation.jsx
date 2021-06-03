@@ -2,11 +2,11 @@ import React from 'react'
 import Moment from 'react-moment'
 
 const Profileedu=({profile:{education}})=>{
-
+    console.log(education)
     return(
         <>
         {
-            education.map(edu=>(
+          education && education.map(edu=>(
                 <div class="profile-edu bg-white p-2">
           <h2 class="text-primary">Education</h2>
           <div>

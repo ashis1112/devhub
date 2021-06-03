@@ -14,7 +14,7 @@ const Profile=({match,getProfileById,profile,auth})=>{
     useEffect(()=>{
         getProfileById(match.params.id)
     },[match.params.id,getProfileById])
-    
+   
     return(
        <>
         {profile === null?(<Spinner/>):(
@@ -22,9 +22,9 @@ const Profile=({match,getProfileById,profile,auth})=>{
                 <Link to='/profiles' className='btn btn-light'>
                     Back To Profiles
                 </Link>
-                {/* { auth.user._id === profile.user._id &&(<Link to='/edit-profile' className='btn btn-dark'>
+                {/* { auth && auth.user._id == profile.user._id ?(<Link to='/edit-profile' className='btn btn-dark'>
                     Edit Profile
-                </Link>)} */}
+                </Link>):''} */}
                 
             </>
         )}
